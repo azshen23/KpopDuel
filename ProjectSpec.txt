@@ -1,0 +1,139 @@
+💥 KpopDuel — MVP Project Spec for Agent Mode
+🎯 Goal
+
+    Build a real-time 1v1 K-pop audio snippet battle game. Players guess song titles as fast as possible. Points for speed and accuracy. Uses WebSockets for low-latency play.
+
+✅ Project structure
+Monorepo
+
+kpopduel/
+  apps/
+    client/       ← Expo React Native app with NativeWind
+    server/       ← Node.js Socket.io game server
+  packages/
+    shared/       ← Shared constants and types (optional)
+
+⚙️ Tech stack
+Frontend (client)
+
+    Expo (React Native)
+
+    TypeScript
+
+    NativeWind (Tailwind-like styling)
+
+    Socket.io client
+
+Backend (server)
+
+    Node.js + Express
+
+    Socket.io
+
+    TypeScript (optional, recommended for shared types)
+
+    In-memory game state (for MVP)
+
+Audio
+
+    Firebase Storage (or S3) for song snippets
+
+    Expo expo-av for playback
+
+💬 Features (MVP)
+1️⃣ Login
+
+    Google Sign-In using Expo Auth (or Firebase Auth if you prefer).
+
+    Store username and profile picture URL.
+
+2️⃣ Matchmaking
+
+    User taps "Find Opponent" button.
+
+    Server adds them to a matchmaking queue.
+
+    When 2 players ready → create a match room.
+
+3️⃣ Game flow
+
+    Total of 5 rounds per match.
+
+    Each round:
+
+        Server emits startRound event → both players play a 5-second snippet.
+
+        4 answer options appear (song titles).
+
+        Player selects guess → emit playerGuess event to server.
+
+        After both guess or 10 sec timeout → server sends roundResult with correct answer and updated scores.
+
+    After final round → server emits gameOver event with final scores and winner.
+
+4️⃣ Score system
+
+    Points for correct answers, bonus for faster response.
+
+    Scores stored in memory (no DB needed for MVP).
+
+5️⃣ UI screens
+
+    LoginScreen
+
+    LobbyScreen (find opponent)
+
+    GameScreen (audio playback, options, score feedback)
+
+    ResultsScreen (final scores, rematch option)
+
+💥 Key socket events
+From client → server
+
+    findOpponent
+
+    playerGuess (payload: round number, guess)
+
+From server → client
+
+    startGame (payload: opponent info)
+
+    startRound (payload: snippet URL, options)
+
+    roundResult (payload: correct answer, scores)
+
+    gameOver (payload: final scores, winner)
+
+🗺️ Server game state example
+
+type Match = {
+  id: string;
+  player1Id: string;
+  player2Id: string;
+  currentRound: number;
+  rounds: Array<{
+    snippetURL: string;
+    options: string[];
+    correctAnswer: string;
+  }>;
+  scores: {
+    [playerId: string]: number;
+  };
+  state: 'waiting' | 'playing' | 'finished';
+}
+
+🧩 Other notes
+
+    Use expo-av for audio snippet playback.
+
+    Use nativewind for styling in Expo (Tailwind syntax).
+
+    Shared constants (e.g., snippet URLs and options) can live in /packages/shared.
+
+    No database needed for MVP, just in-memory state on server.
+
+    Ignore advanced features (friends list, cosmetics, advanced stats) for now.
+
+🚀 Agent mode instruction prompt (example)
+
+    Build a monorepo project for a real-time 1v1 K-pop audio guessing game called KpopDuel. Use Expo React Native with NativeWind for the client app, and Node.js with Socket.io for the game server. Implement Google login, a simple matchmaking system, and 5-round battle logic. Include real-time socket events for match start, round data, player guesses, and results. Style client screens with NativeWind Tailwind classes. Use in-memory state on server. Provide example TypeScript types for matches and rounds. Generate starter code structure and basic placeholder components.
