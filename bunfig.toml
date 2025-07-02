@@ -1,0 +1,20 @@
+[install]
+# Automatically install peer dependencies
+auto = "auto"
+
+# Use exact versions for better reproducibility
+exact = true
+
+# Cache directory
+cache = "node_modules/.cache/bun"
+
+[install.scopes]
+# Configure any scoped registries if needed
+
+[run]
+# Enable bun shell for scripts
+shell = "bun"
+
+# Environment variables
+[env]
+NODE_ENV = "development"

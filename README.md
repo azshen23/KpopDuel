@@ -13,6 +13,7 @@ A real-time 1v1 K-pop audio snippet battle game built with React Native and Expo
 
 ## Tech Stack
 
+- **Runtime**: Bun (JavaScript runtime and package manager)
 - **Framework**: Expo (React Native)
 - **Language**: TypeScript
 - **Styling**: NativeWind (Tailwind CSS)
@@ -23,9 +24,8 @@ A real-time 1v1 K-pop audio snippet battle game built with React Native and Expo
 
 ## Prerequisites
 
-- Node.js (v16 or higher)
-- npm or yarn
-- Expo CLI (`npm install -g @expo/cli`)
+- Bun (v1.0 or higher) - [Install Bun](https://bun.sh/docs/installation)
+- Expo CLI (`bun add -g @expo/cli`)
 - iOS Simulator (for iOS development)
 - Android Studio/Emulator (for Android development)
 
@@ -39,24 +39,47 @@ cd kpopduel-client
 
 2. Install dependencies:
 ```bash
-npm install
+bun install
 ```
 
 3. Start the development server:
 ```bash
-npm start
+bun start
 ```
 
 4. Run on your preferred platform:
 ```bash
 # iOS
-npm run ios
+bun run ios
 
 # Android
-npm run android
+bun run android
 
 # Web
-npm run web
+bun run web
+```
+
+## Bun Configuration
+
+This project is configured to use Bun as the JavaScript runtime and package manager. Bun provides:
+
+- **Faster installation**: Up to 25x faster than npm
+- **Built-in bundler**: No need for additional build tools
+- **TypeScript support**: Native TypeScript execution
+- **Hot reloading**: Fast development experience
+
+### Bun-specific files:
+- `bunfig.toml`: Bun configuration file
+- `bun.lockb`: Bun lockfile (binary format)
+
+### Available scripts:
+```bash
+bun start      # Start Expo development server
+bun run dev    # Alias for start
+bun run ios    # Run on iOS simulator
+bun run android # Run on Android emulator
+bun run web    # Run in web browser
+bun run build  # Build the project
 ```
 
 ## Configuration
