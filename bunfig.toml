@@ -1,9 +1,0 @@
-[install]
-frozen = true
-
-
-[test]
-preload = ["./test/setup.ts"]
-
-[debug]
-compression = false
