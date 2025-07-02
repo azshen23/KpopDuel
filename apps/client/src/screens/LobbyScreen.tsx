@@ -5,7 +5,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 import { useAuth } from '../contexts/AuthContext';
 import { useSocket } from '../contexts/SocketContext';
-import { SOCKET_EVENTS } from 'shared';
+import { SOCKET_EVENTS } from '@kpopduel/shared';
 import { StatusBar } from 'expo-status-bar';
 
 type LobbyScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Lobby'>;

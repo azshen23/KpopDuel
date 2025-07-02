@@ -7,9 +7,9 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:client": "yarn workspace client start",
-    "dev:server": "yarn workspace server dev",
-    "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\""
+    "dev:client": "bun run --cwd apps/client start",
+    "dev:server": "bun run --cwd apps/server dev",
+    "dev": "concurrently \"bun run dev:server\" \"bun run dev:client\""
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

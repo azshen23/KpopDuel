@@ -12,9 +12,8 @@ A real-time 1v1 K-pop music guessing game built with Expo React Native and Socke
 
 ## Prerequisites
 
-- Node.js (v16 or later)
-- Yarn package manager
-- Expo CLI (`npm install -g expo-cli`)
+- Bun runtime (latest version)
+- Expo CLI (`bun install -g expo-cli`)
 - Firebase account (for audio storage)
 
 ## Project Structure
@@ -23,7 +22,7 @@ A real-time 1v1 K-pop music guessing game built with Expo React Native and Socke
 kpopduel/
   apps/
     client/       # Expo React Native app
-    server/       # Node.js Socket.io server
+    server/       # Bun Socket.io server
   packages/
     shared/       # Shared types and constants
 ```
@@ -51,25 +50,25 @@ kpopduel/
 
 1. Install dependencies:
    ```bash
-   yarn install
+   bun install
    ```
 
 2. Build shared package:
    ```bash
    cd packages/shared
-   yarn build
+   bun run build
    ```
 
 ## Development
 
 1. Start the server:
    ```bash
-   yarn dev:server
+   bun run dev:server
    ```
 
 2. Start the Expo app:
    ```bash
-   yarn dev:client
+   bun run dev:client
    ```
 
 3. Open the Expo app on your device using the Expo Go app or run in a simulator.
