@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
   Alert,
   KeyboardAvoidingView,
   Platform,
@@ -14,22 +10,9 @@ import { RootStackParamList } from "../AppNavigator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { updateProfile, User } from "firebase/auth";
 import { auth, authService } from "../../services/authService";
-import { styled } from "nativewind";
+import { Container, Button, Typography, Input, Layout } from "../../components";
 
-// Styled components
-const StyledKeyboardAvoidingView = styled(KeyboardAvoidingView, "flex-1 bg-[#1a1a2e]");
-const StyledHeaderView = styled(View, "items-center mb-12");
-const StyledTitle = styled(Text, "text-5xl font-bold text-[#FF6B9D] mb-2");
-const StyledSubtitle = styled(Text, "text-lg text-[#4ECDC4] text-center");
-const StyledFormView = styled(View, "mb-12");
-const StyledFormTitle = styled(Text, "text-lg text-white mb-2 text-center");
-const StyledTextInput = styled(TextInput, "bg-white rounded-3xl px-5 py-4 text-base mb-5 text-center");
-const StyledButton = styled(TouchableOpacity, "rounded-3xl py-4 items-center shadow-lg");
-const StyledButtonText = styled(Text, "text-white text-lg font-bold");
-const StyledLinkButton = styled(TouchableOpacity, "mt-5 items-center");
-const StyledLinkText = styled(Text, "text-[#4ECDC4] text-base underline");
-const StyledFooterView = styled(View, "items-center");
-const StyledFooterText = styled(Text, "text-base text-[#FFE66D] text-center leading-6");
+// No more styled components needed - using reusable components!
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -122,83 +105,95 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <StyledKeyboardAvoidingView 
+    <KeyboardAvoidingView 
       behavior={Platform.OS === "ios" ? "padding" : "height"}
+      className="flex-1 bg-[#1a1a2e]"
     >
       <ScrollView contentContainerStyle={{flexGrow: 1, justifyContent: 'center', padding: 20}}>
-        <StyledHeaderView>
-          <StyledTitle>🎵 KpopDuel</StyledTitle>
-          <StyledSubtitle>Real-time K-pop Battle Game</StyledSubtitle>
-        </StyledHeaderView>
+        <Layout variant="center" spacing="large" className="mb-12">
+          <Typography variant="title" color="primary" weight="bold" className="mb-2">
+            🎵 KpopDuel
+          </Typography>
+          <Typography variant="subtitle" color="secondary" align="center">
+            Real-time K-pop Battle Game
+          </Typography>
+        </Layout>
 
-        <StyledFormView>
-          <StyledFormTitle>
+        <Layout spacing="large" className="mb-12">
+          <Typography variant="subtitle" align="center" className="mb-2">
             {isSignUp ? "Create Account" : "Sign In"}
-          </StyledFormTitle>
+          </Typography>
           
-          <StyledTextInput
+          <Input
+            variant="rounded"
+            size="large"
             value={email}
             onChangeText={setEmail}
             placeholder="Email address"
-            placeholderTextColor="#999"
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
+            className="mb-5"
           />
 
-          <StyledTextInput
+          <Input
+            variant="rounded"
+            size="large"
             value={password}
             onChangeText={setPassword}
             placeholder="Password"
-            placeholderTextColor="#999"
             secureTextEntry
             autoCapitalize="none"
+            className="mb-5"
           />
 
           {isSignUp && (
-            <StyledTextInput
+            <Input
+              variant="rounded"
+              size="large"
               value={displayName}
               onChangeText={setDisplayName}
               placeholder="Display name"
-              placeholderTextColor="#999"
               maxLength={20}
               autoCapitalize="words"
+              className="mb-5"
             />
           )}
 
-          <StyledButton
-            className={isLoading ? 'bg-gray-400' : 'bg-[#FF6B9D]'}
+          <Button
+            variant="primary"
+            size="large"
             onPress={handleAuth}
             disabled={isLoading}
+            className={isLoading ? 'bg-gray-400' : ''}
           >
-            <StyledButtonText>
-              {isLoading 
-                ? (isSignUp ? "Creating Account..." : "Signing In...") 
-                : (isSignUp ? "Create Account" : "Sign In")
-              }
-            </StyledButtonText>
-          </StyledButton>
+            {isLoading 
+              ? (isSignUp ? "Creating Account..." : "Signing In...") 
+              : (isSignUp ? "Create Account" : "Sign In")
+            }
+          </Button>
 
-          <StyledLinkButton
+          <Button
+            variant="outline"
             onPress={() => setIsSignUp(!isSignUp)}
             disabled={isLoading}
+            className="mt-5 bg-transparent border-0"
+            textClassName="text-[#4ECDC4] underline"
           >
-            <StyledLinkText>
-              {isSignUp 
-                ? "Already have an account? Sign In" 
-                : "Don't have an account? Sign Up"
-              }
-            </StyledLinkText>
-          </StyledLinkButton>
-        </StyledFormView>
+            {isSignUp 
+              ? "Already have an account? Sign In" 
+              : "Don't have an account? Sign Up"
+            }
+          </Button>
+        </Layout>
 
-        <StyledFooterView>
-          <StyledFooterText>
+        <Layout variant="center">
+          <Typography color="accent" align="center" className="leading-6">
             🎤 Guess K-pop songs faster than your opponent!
-          </StyledFooterText>
-        </StyledFooterView>
+          </Typography>
+        </Layout>
       </ScrollView>
-     </StyledKeyboardAvoidingView>
+     </KeyboardAvoidingView>
    );
 };
 

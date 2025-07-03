@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  View,
-  Text,
-  TouchableOpacity,
   Alert,
   ActivityIndicator,
 } from "react-native";
@@ -13,36 +10,9 @@ import SocketManager from "../../socket";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { signOut } from "firebase/auth";
 import { auth } from "../../services/authService";
-import { styled } from "nativewind";
+import { Container, Button, Typography, Card, Layout } from "../../components";
 
-// Styled components
-const StyledContainer = styled(View, "flex-1 bg-[#1a1a2e] p-5");
-const StyledHeader = styled(View, "items-center mt-5 mb-10");
-const StyledWelcomeText = styled(Text, "text-2xl font-bold text-white mb-2");
-const StyledSubText = styled(Text, "text-lg text-[#4ECDC4]");
-const StyledContent = styled(View, "flex-1 justify-center");
-const StyledFindButton = styled(
-  TouchableOpacity,
-  "bg-[#FF6B9D] rounded-3xl py-5 items-center mb-10 shadow-lg"
-);
-const StyledButtonText = styled(Text, "text-white text-xl font-bold");
-const StyledRulesContainer = styled(View, "bg-[#16213e] rounded-2xl p-5");
-const StyledRulesTitle = styled(Text, "text-lg font-bold text-[#FFE66D] mb-4");
-const StyledRuleText = styled(Text, "text-base text-white mb-2 leading-6");
-const StyledSearchingContainer = styled(View, "items-center");
-const StyledSearchingText = styled(Text, "text-xl text-white mt-5 mb-2");
-const StyledSearchingSubText = styled(Text, "text-base text-gray-400 mb-8");
-const StyledCancelButton = styled(
-  TouchableOpacity,
-  "bg-gray-600 rounded-2xl py-3 px-8"
-);
-const StyledCancelText = styled(Text, "text-white text-base");
-const StyledFooter = styled(View, "items-center mb-5");
-const StyledLogoutButton = styled(
-  TouchableOpacity,
-  "bg-transparent border border-gray-600 rounded-2xl py-2 px-8"
-);
-const StyledLogoutText = styled(Text, "text-gray-600 text-base");
+// No more styled components needed - using reusable components!
 
 type LobbyScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -135,48 +105,61 @@ const LobbyScreen: React.FC<Props> = ({ navigation, route }) => {
   };
 
   return (
-    <StyledContainer>
-      <StyledHeader>
-        <StyledWelcomeText>Welcome, {playerName}! 👋</StyledWelcomeText>
-        <StyledSubText>Ready to battle?</StyledSubText>
-      </StyledHeader>
+    <Container variant="primary">
+      <Layout variant="header" spacing="large">
+        <Typography variant="heading" weight="bold" className="mb-2">
+          Welcome, {playerName}! 👋
+        </Typography>
+        <Typography variant="subtitle" color="secondary">
+          Ready to battle?
+        </Typography>
+      </Layout>
 
-      <StyledContent>
+      <Layout variant="content">
         {!isSearching ? (
           <>
-            <StyledFindButton onPress={handleFindOpponent}>
-              <StyledButtonText>🎯 Find Opponent</StyledButtonText>
-            </StyledFindButton>
+            <Button 
+              variant="primary" 
+              size="large" 
+              onPress={handleFindOpponent}
+              className="py-5 mb-10"
+            >
+              🎯 Find Opponent
+            </Button>
 
-            <StyledRulesContainer>
-              <StyledRulesTitle>How to Play:</StyledRulesTitle>
-              <StyledRuleText>• 5 rounds of K-pop song guessing</StyledRuleText>
-              <StyledRuleText>• 4 options per round</StyledRuleText>
-              <StyledRuleText>• Points for speed and accuracy</StyledRuleText>
-              <StyledRuleText>• Beat your opponent to win!</StyledRuleText>
-            </StyledRulesContainer>
+            <Card variant="rules">
+              <Typography variant="subtitle" color="accent" weight="bold" className="mb-4">
+                How to Play:
+              </Typography>
+              <Typography className="mb-2 leading-6">• 5 rounds of K-pop song guessing</Typography>
+              <Typography className="mb-2 leading-6">• 4 options per round</Typography>
+              <Typography className="mb-2 leading-6">• Points for speed and accuracy</Typography>
+              <Typography className="mb-2 leading-6">• Beat your opponent to win!</Typography>
+            </Card>
           </>
         ) : (
-          <StyledSearchingContainer>
+          <Layout variant="center">
             <ActivityIndicator size="large" color="#FF6B9D" />
-            <StyledSearchingText>Looking for opponent...</StyledSearchingText>
-            <StyledSearchingSubText>
+            <Typography variant="button" className="mt-5 mb-2">
+              Looking for opponent...
+            </Typography>
+            <Typography color="gray" className="mb-8">
               This may take a moment
-            </StyledSearchingSubText>
+            </Typography>
 
-            <StyledCancelButton onPress={handleCancelSearch}>
-              <StyledCancelText>Cancel</StyledCancelText>
-            </StyledCancelButton>
-          </StyledSearchingContainer>
+            <Button variant="cancel" onPress={handleCancelSearch}>
+              Cancel
+            </Button>
+          </Layout>
         )}
-      </StyledContent>
+      </Layout>
 
-      <StyledFooter>
-        <StyledLogoutButton onPress={handleLogout}>
-          <StyledLogoutText>Logout</StyledLogoutText>
-        </StyledLogoutButton>
-      </StyledFooter>
-    </StyledContainer>
+      <Layout variant="footer">
+        <Button variant="logout" onPress={handleLogout}>
+          Logout
+        </Button>
+      </Layout>
+    </Container>
   );
 };
 

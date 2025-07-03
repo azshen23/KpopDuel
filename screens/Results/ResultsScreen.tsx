@@ -1,38 +1,12 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { Dimensions } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../AppNavigator";
 import SocketManager from "../../socket";
-import { styled } from "nativewind";
+import { Container, Button, Typography, Card, Layout } from "../../components";
 
-// Styled components
-const StyledContainer = styled(View, "flex-1 bg-[#1a1a2e] p-5 justify-center");
-const StyledHeaderContainer = styled(View, "items-center mb-10");
-const StyledGameOverText = styled(Text, "text-3xl text-white font-bold mb-2");
-const StyledResultText = styled(Text, "text-3xl font-bold");
-const StyledScoreContainer = styled(View, "flex-row justify-between items-center mb-10");
-const StyledScoreCard = styled(View, "bg-[#16213e] rounded-3xl p-5 items-center flex-1 mx-1");
-const StyledScoreLabel = styled(Text, "text-base text-gray-400 mb-2");
-const StyledScoreValue = styled(Text, "text-4xl font-bold");
-const StyledVsContainer = styled(View, "px-2");
-const StyledVsText = styled(Text, "text-lg text-[#4ECDC4] font-bold");
-const StyledSummaryContainer = styled(View, "bg-[#16213e] rounded-3xl p-5 mb-10");
-const StyledSummaryTitle = styled(Text, "text-xl text-[#FFE66D] font-bold mb-4 text-center");
-const StyledSummaryItem = styled(View, "mb-2");
-const StyledSummaryText = styled(Text, "text-base text-white text-center");
-const StyledButtonContainer = styled(View, "mb-8");
-const StyledPlayAgainButton = styled(TouchableOpacity, "bg-[#FF6B9D] rounded-3xl py-4 items-center mb-4 shadow-lg");
-const StyledPlayAgainText = styled(Text, "text-white text-lg font-bold");
-const StyledExitButton = styled(TouchableOpacity, "bg-transparent border-2 border-gray-600 rounded-3xl py-4 items-center");
-const StyledExitText = styled(Text, "text-gray-600 text-base");
-const StyledMotivationalContainer = styled(View, "items-center");
-const StyledMotivationalText = styled(Text, "text-base text-[#4ECDC4] text-center leading-6");
+// No more styled components needed - using reusable components!
 
 type ResultsScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -66,85 +40,104 @@ const ResultsScreen: React.FC<Props> = ({ navigation, route }) => {
   };
 
   return (
-    <StyledContainer>
+    <Container variant="primary">
       {/* Result Header */}
-      <StyledHeaderContainer>
-        <StyledGameOverText>Game Over!</StyledGameOverText>
-        <StyledResultText
-          className={`${
-            isWinner ? 'text-green-500' : 'text-red-500'
-          }`}
+      <Layout variant="header" spacing="medium">
+        <Typography variant="title" color="white" align="center">
+          Game Over!
+        </Typography>
+        <Typography
+          variant="heading"
+          color={isWinner ? "success" : "error"}
+          align="center"
         >
           {isWinner ? "🎉 You Won!" : "😔 You Lost!"}
-        </StyledResultText>
-      </StyledHeaderContainer>
+        </Typography>
+      </Layout>
 
       {/* Score Display */}
-      <StyledScoreContainer>
-        <StyledScoreCard>
-          <StyledScoreLabel>Your Score</StyledScoreLabel>
-          <StyledScoreValue className={`${
-            isWinner ? 'text-[#FFE66D]' : 'text-white'
-          }`}>
+      <Layout
+        variant="row"
+        spacing="medium"
+        className="justify-center items-center"
+      >
+        <Card variant="score">
+          <Typography variant="caption" color="gray" align="center">
+            Your Score
+          </Typography>
+          <Typography
+            variant="score"
+            color={isWinner ? "accent" : "white"}
+            align="center"
+          >
             {playerScore}
-          </StyledScoreValue>
-        </StyledScoreCard>
+          </Typography>
+        </Card>
 
-        <StyledVsContainer>
-          <StyledVsText>VS</StyledVsText>
-        </StyledVsContainer>
+        <Layout variant="center" className="mx-4">
+          <Typography variant="heading" color="white">
+            VS
+          </Typography>
+        </Layout>
 
-        <StyledScoreCard>
-          <StyledScoreLabel>Opponent</StyledScoreLabel>
-          <StyledScoreValue className={`${
-            !isWinner ? 'text-[#FFE66D]' : 'text-white'
-          }`}>
+        <Card variant="score">
+          <Typography variant="caption" color="gray" align="center">
+            Opponent
+          </Typography>
+          <Typography
+            variant="score"
+            color={!isWinner ? "accent" : "white"}
+            align="center"
+          >
             {opponentScore}
-          </StyledScoreValue>
-        </StyledScoreCard>
-      </StyledScoreContainer>
+          </Typography>
+        </Card>
+      </Layout>
 
       {/* Performance Summary */}
-      <StyledSummaryContainer>
-        <StyledSummaryTitle>Match Summary</StyledSummaryTitle>
-        <StyledSummaryItem>
-          <StyledSummaryText>Total Rounds: 5</StyledSummaryText>
-        </StyledSummaryItem>
-        <StyledSummaryItem>
-          <StyledSummaryText>
+      <Card variant="summary">
+        <Typography
+          variant="subtitle"
+          color="white"
+          align="center"
+          className="mb-4"
+        >
+          Match Summary
+        </Typography>
+        <Layout spacing="small">
+          <Typography variant="body" color="gray">
+            Total Rounds: 5
+          </Typography>
+          <Typography variant="body" color="gray">
             Your Accuracy: {Math.round((playerScore / 5) * 100)}%
-          </StyledSummaryText>
-        </StyledSummaryItem>
-        <StyledSummaryItem>
-          <StyledSummaryText>
+          </Typography>
+          <Typography variant="body" color="gray">
             Score Difference: {Math.abs(playerScore - opponentScore)}
-          </StyledSummaryText>
-        </StyledSummaryItem>
-      </StyledSummaryContainer>
+          </Typography>
+        </Layout>
+      </Card>
 
       {/* Action Buttons */}
-      <StyledButtonContainer>
-        <StyledPlayAgainButton
-          onPress={handlePlayAgain}
-        >
-          <StyledPlayAgainText>🎮 Play Again</StyledPlayAgainText>
-        </StyledPlayAgainButton>
+      <Layout spacing="medium">
+        <Button variant="primary" size="large" onPress={handlePlayAgain}>
+          🎮 Play Again
+        </Button>
 
-        <StyledExitButton onPress={handleExit}>
-          <StyledExitText>Exit to Login</StyledExitText>
-        </StyledExitButton>
-      </StyledButtonContainer>
+        <Button variant="cancel" size="medium" onPress={handleExit}>
+          Exit to Login
+        </Button>
+      </Layout>
 
       {/* Motivational Message */}
-      <StyledMotivationalContainer>
-        <StyledMotivationalText>
+      <Layout variant="center" className="mt-4">
+        <Typography variant="body" color="gray" align="center">
           {isWinner
             ? "🎵 Great job! You know your K-pop!"
             : "🎶 Keep practicing! You'll get them next time!"}
-        </StyledMotivationalText>
-       </StyledMotivationalContainer>
-     </StyledContainer>
-   );
+        </Typography>
+      </Layout>
+    </Container>
+  );
 };
 
 export default ResultsScreen;

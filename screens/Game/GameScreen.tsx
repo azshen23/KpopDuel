@@ -1,41 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Alert,
-  Dimensions,
-} from "react-native";
+import { View, Alert, Dimensions } from "react-native";
 import { Audio } from "expo-av";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../AppNavigator";
 import SocketManager from "../../socket";
-import { styled } from "nativewind";
+import { Container, Button, Typography, Card, Layout } from "../../components";
 
-// Styled components
-const StyledContainer = styled(View, "flex-1 bg-[#1a1a2e] p-5");
-const StyledLoadingContainer = styled(View, "flex-1 justify-center items-center");
-const StyledLoadingTitle = styled(Text, "text-3xl text-[#FF6B9D] font-bold mb-5");
-const StyledLoadingSubtitle = styled(Text, "text-2xl text-[#4ECDC4] mb-2");
-const StyledLoadingText = styled(Text, "text-base text-gray-400");
-const StyledHeader = styled(View, "mb-5");
-const StyledScoreRow = styled(View, "flex-row justify-between items-center mb-2");
-const StyledScoreText = styled(Text, "text-lg text-white font-bold");
-const StyledVsText = styled(Text, "text-base text-[#FFE66D] font-bold");
-const StyledRoundText = styled(Text, "text-base text-[#4ECDC4] text-center");
-const StyledTimerContainer = styled(View, "items-center mb-8");
-const StyledTimerText = styled(Text, "text-2xl text-[#FF6B9D] font-bold mb-2");
-const StyledTimerBar = styled(View, "bg-gray-700 rounded overflow-hidden");
-const StyledTimerProgress = styled(View, "h-full bg-[#FF6B9D]");
-const StyledAudioContainer = styled(View, "items-center mb-8");
-const StyledAudioText = styled(Text, "text-lg text-[#FFE66D]");
-const StyledAnswerContainer = styled(View, "flex-1");
-const StyledQuestionText = styled(Text, "text-xl text-white text-center mb-5 font-bold");
-const StyledOptionButton = styled(TouchableOpacity, "bg-[#16213e] rounded-2xl p-5 mb-4 border-2");
-const StyledOptionText = styled(Text, "text-base text-white text-center");
-const StyledResultContainer = styled(View, "bg-[#16213e] rounded-2xl p-5 mt-5");
-const StyledResultText = styled(Text, "text-base text-[#FFE66D] text-center font-bold");
+// No more styled components needed - using reusable components!
 
 type GameScreenNavigationProp = StackNavigationProp<RootStackParamList, "Game">;
 type GameScreenRouteProp = RouteProp<RootStackParamList, "Game">;
@@ -182,58 +154,85 @@ const GameScreen: React.FC<Props> = ({ navigation, route }) => {
 
   if (!gameStarted) {
     return (
-      <StyledContainer>
-        <StyledLoadingContainer>
-          <StyledLoadingTitle>🎵 Get Ready!</StyledLoadingTitle>
-          <StyledLoadingSubtitle>VS {opponent.name}</StyledLoadingSubtitle>
-          <StyledLoadingText>Game starting soon...</StyledLoadingText>
-        </StyledLoadingContainer>
-      </StyledContainer>
+      <Container variant="primary">
+        <Layout variant="loading">
+          <Typography variant="title" color="primary" align="center">
+            🎵 Get Ready!
+          </Typography>
+          <Typography variant="heading" color="secondary" align="center">
+            VS {opponent.name}
+          </Typography>
+          <Typography variant="body" color="gray" align="center">
+            Game starting soon...
+          </Typography>
+        </Layout>
+      </Container>
     );
   }
 
   return (
-    <StyledContainer>
+    <Container variant="primary">
       {/* Header */}
-      <StyledHeader>
-        <StyledScoreRow>
-          <StyledScoreText>
+      <Layout variant="header" spacing="medium">
+        <Layout variant="row" className="justify-between items-center mb-2">
+          <Typography variant="score" color="white" weight="bold">
             You: {scores[Object.keys(scores)[0]] || 0}
-          </StyledScoreText>
-          <StyledVsText>VS</StyledVsText>
-          <StyledScoreText>
+          </Typography>
+          <Typography variant="body" color="accent" weight="bold">
+            VS
+          </Typography>
+          <Typography variant="score" color="white" weight="bold">
             {opponent.name}: {scores[Object.keys(scores)[1]] || 0}
-          </StyledScoreText>
-        </StyledScoreRow>
+          </Typography>
+        </Layout>
 
         {currentRound && (
-          <StyledRoundText>
+          <Typography variant="body" color="secondary" align="center">
             Round {currentRound.roundNumber}/5
-          </StyledRoundText>
+          </Typography>
         )}
-      </StyledHeader>
+      </Layout>
 
       {/* Timer */}
-      <StyledTimerContainer>
-        <StyledTimerText>{timeLeft}s</StyledTimerText>
-        <StyledTimerBar style={{ width: width - 40, height: 8 }}>
-          <StyledTimerProgress
+      <Layout variant="center" spacing="large" className="mb-8">
+        <Typography
+          variant="timer"
+          color="primary"
+          weight="bold"
+          className="mb-2"
+        >
+          {timeLeft}s
+        </Typography>
+        <View
+          className="bg-gray-700 rounded overflow-hidden"
+          style={{ width: width - 40, height: 8 }}
+        >
+          <View
+            className="h-full bg-[#FF6B9D]"
             style={{ width: `${(timeLeft / 15) * 100}%` }}
           />
-        </StyledTimerBar>
-      </StyledTimerContainer>
+        </View>
+      </Layout>
 
       {/* Audio Controls */}
-      <StyledAudioContainer>
-        <StyledAudioText>
+      <Layout variant="center" spacing="large" className="mb-8">
+        <Typography variant="body" color="accent">
           {isPlaying ? "🎵 Playing..." : "🎵 Audio snippet"}
-        </StyledAudioText>
-      </StyledAudioContainer>
+        </Typography>
+      </Layout>
 
       {/* Answer Options */}
       {currentRound && (
-        <StyledAnswerContainer>
-          <StyledQuestionText>Which song is this?</StyledQuestionText>
+        <Layout spacing="medium" className="flex-1">
+          <Typography
+            variant="heading"
+            color="white"
+            align="center"
+            weight="bold"
+            className="mb-5"
+          >
+            Which song is this?
+          </Typography>
           {currentRound.options.map((option, index) => {
             const isSelected = selectedAnswer === option;
             const isCorrect =
@@ -242,43 +241,51 @@ const GameScreen: React.FC<Props> = ({ navigation, route }) => {
               showResult && selectedAnswer === option && !isCorrect;
 
             return (
-              <StyledOptionButton
+              <Button
                 key={index}
+                variant="outline"
+                size="large"
                 className={`${
                   isCorrect
-                    ? 'border-green-500 bg-green-500'
+                    ? "border-green-500 bg-green-500"
                     : isWrong
-                    ? 'border-red-500 bg-red-500'
+                    ? "border-red-500 bg-red-500"
                     : isSelected
-                    ? 'border-[#4ECDC4] bg-[#4ECDC4]'
-                    : 'border-transparent'
-                }`}
+                    ? "border-[#4ECDC4] bg-[#4ECDC4]"
+                    : "border-transparent"
+                } mb-4`}
                 onPress={() => handleAnswerSelect(option)}
                 disabled={showResult}
               >
-                <StyledOptionText
-                  className={`${
-                    isSelected || isCorrect ? 'font-bold' : ''
-                  }`}
+                <Typography
+                  variant="button"
+                  color="white"
+                  align="center"
+                  weight={isSelected || isCorrect ? "bold" : "normal"}
                 >
                   {option}
-                </StyledOptionText>
-              </StyledOptionButton>
+                </Typography>
+              </Button>
             );
           })}
-        </StyledAnswerContainer>
+        </Layout>
       )}
 
       {/* Result Display */}
       {showResult && lastResult && (
-        <StyledResultContainer>
-          <StyledResultText>
+        <Card variant="result" className="mt-5">
+          <Typography
+            variant="body"
+            color="accent"
+            align="center"
+            weight="bold"
+          >
             Correct Answer: {lastResult.correctAnswer}
-          </StyledResultText>
-        </StyledResultContainer>
-       )}
-     </StyledContainer>
-   );
+          </Typography>
+        </Card>
+      )}
+    </Container>
+  );
 };
 
 export default GameScreen;
