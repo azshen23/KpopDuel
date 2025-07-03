@@ -5,7 +5,7 @@ import {
 } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../AppNavigator";
+import { AuthenticatedStackParamList } from "../AppNavigator";
 import SocketManager from "../../socket";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { signOut } from "firebase/auth";
@@ -15,10 +15,10 @@ import { Container, Button, Typography, Card, Layout } from "../../components";
 // No more styled components needed - using reusable components!
 
 type LobbyScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
+  AuthenticatedStackParamList,
   "Lobby"
 >;
-type LobbyScreenRouteProp = RouteProp<RootStackParamList, "Lobby">;
+type LobbyScreenRouteProp = RouteProp<AuthenticatedStackParamList, "Lobby">;
 
 interface Props {
   navigation: LobbyScreenNavigationProp;

@@ -136,8 +136,8 @@ kpopduel-client/
 ### Adding New Screens
 
 1. Create screen component in `screens/`
-2. Add to navigation stack in `App.tsx`
-3. Update `RootStackParamList` type
+2. Add to appropriate navigation stack in `AppNavigator.tsx`
+3. Update `AuthStackParamList` or `AuthenticatedStackParamList` type
 
 ### Styling
 

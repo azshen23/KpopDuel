@@ -2,17 +2,18 @@ import React from "react";
 import { Dimensions } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../AppNavigator";
+import { AuthenticatedStackParamList } from "../AppNavigator";
 import SocketManager from "../../socket";
 import { Container, Button, Typography, Card, Layout } from "../../components";
+import { authService } from "../../services/authService";
 
 // No more styled components needed - using reusable components!
 
 type ResultsScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
+  AuthenticatedStackParamList,
   "Results"
 >;
-type ResultsScreenRouteProp = RouteProp<RootStackParamList, "Results">;
+type ResultsScreenRouteProp = RouteProp<AuthenticatedStackParamList, "Results">;
 
 interface Props {
   navigation: ResultsScreenNavigationProp;
@@ -36,7 +37,8 @@ const ResultsScreen: React.FC<Props> = ({ navigation, route }) => {
 
   const handleExit = () => {
     SocketManager.disconnect();
-    navigation.replace("Login");
+    // Sign out will trigger navigation to auth stack
+    authService.signOut();
   };
 
   return (

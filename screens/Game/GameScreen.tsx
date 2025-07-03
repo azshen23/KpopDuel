@@ -3,14 +3,14 @@ import { View, Alert, Dimensions } from "react-native";
 import { Audio } from "expo-av";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../AppNavigator";
+import { AuthenticatedStackParamList } from "../AppNavigator";
 import SocketManager from "../../socket";
 import { Container, Button, Typography, Card, Layout } from "../../components";
 
 // No more styled components needed - using reusable components!
 
-type GameScreenNavigationProp = StackNavigationProp<RootStackParamList, "Game">;
-type GameScreenRouteProp = RouteProp<RootStackParamList, "Game">;
+type GameScreenNavigationProp = StackNavigationProp<AuthenticatedStackParamList, "Game">;
+type GameScreenRouteProp = RouteProp<AuthenticatedStackParamList, "Game">;
 
 interface Props {
   navigation: GameScreenNavigationProp;

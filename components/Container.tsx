@@ -1,16 +1,20 @@
 import React from 'react';
 import { View, ViewProps } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { styled } from 'nativewind';
 
 const StyledView = styled(View);
+const StyledSafeAreaView = styled(SafeAreaView);
 
 interface ContainerProps extends ViewProps {
   variant?: 'primary' | 'secondary' | 'card';
+  safeArea?: boolean;
   children: React.ReactNode;
 }
 
 export const Container: React.FC<ContainerProps> = ({ 
   variant = 'primary', 
+  safeArea = false,
   children, 
   className,
   ...props 
@@ -28,13 +32,15 @@ export const Container: React.FC<ContainerProps> = ({
     }
   };
 
+  const Component = safeArea ? StyledSafeAreaView : StyledView;
+
   return (
-    <StyledView 
+    <Component 
       className={`${getVariantStyles()} ${className || ''}`}
       {...props}
     >
       {children}
-    </StyledView>
+    </Component>
   );
 };
 
