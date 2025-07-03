@@ -24,6 +24,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "scheme": "kpopduel",
     "plugins": ["expo-av", "expo-web-browser"],
     "experiments": {
       "reactCanary": true

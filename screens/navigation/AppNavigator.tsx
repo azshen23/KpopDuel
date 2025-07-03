@@ -21,6 +21,7 @@ const AppNavigator: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Listen to auth state changes
     const unsubscribe = authService.onAuthStateChanged((user: User | null) => {
       setUser(user);
       setIsLoading(false);
