@@ -7,7 +7,7 @@ import {
 } from "react-native";
 
 import { StackNavigationProp } from "@react-navigation/stack";
-import { AuthStackParamList } from "../AppNavigator";
+import { AuthStackParamList } from "../navigation/AuthStack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { updateProfile, User } from "firebase/auth";
 import { auth, authService } from "../../services/authService";
@@ -65,7 +65,8 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       }
 
       // Store user data in AsyncStorage
-      const playerName = user.displayName || user.email?.split('@')[0] || 'Player';
+      const playerName =
+        user.displayName || user.email?.split("@")[0] || "Player";
       await AsyncStorage.setItem("playerId", user.uid);
       await AsyncStorage.setItem("playerName", playerName);
     } catch (error: any) {

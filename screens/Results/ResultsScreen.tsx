@@ -2,7 +2,7 @@ import React from "react";
 import { Dimensions } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-import { AuthenticatedStackParamList } from "../AppNavigator";
+import { AuthenticatedStackParamList } from "../navigation/AuthenticatedStack";
 import SocketManager from "../../socket";
 import { Container, Button, Typography, Card, Layout } from "../../components";
 import { authService } from "../../services/authService";

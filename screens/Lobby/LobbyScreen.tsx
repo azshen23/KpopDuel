@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {
-  Alert,
-  ActivityIndicator,
-} from "react-native";
+import { Alert, ActivityIndicator } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
-import { AuthenticatedStackParamList } from "../AppNavigator";
+import { AuthenticatedStackParamList } from "../navigation/AuthenticatedStack";
 import SocketManager from "../../socket";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { signOut } from "firebase/auth";
@@ -118,9 +115,9 @@ const LobbyScreen: React.FC<Props> = ({ navigation, route }) => {
       <Layout variant="content">
         {!isSearching ? (
           <>
-            <Button 
-              variant="primary" 
-              size="large" 
+            <Button
+              variant="primary"
+              size="large"
               onPress={handleFindOpponent}
               className="py-5 mb-10"
             >
@@ -128,13 +125,26 @@ const LobbyScreen: React.FC<Props> = ({ navigation, route }) => {
             </Button>
 
             <Card variant="rules">
-              <Typography variant="subtitle" color="accent" weight="bold" className="mb-4">
+              <Typography
+                variant="subtitle"
+                color="accent"
+                weight="bold"
+                className="mb-4"
+              >
                 How to Play:
               </Typography>
-              <Typography className="mb-2 leading-6">• 5 rounds of K-pop song guessing</Typography>
-              <Typography className="mb-2 leading-6">• 4 options per round</Typography>
-              <Typography className="mb-2 leading-6">• Points for speed and accuracy</Typography>
-              <Typography className="mb-2 leading-6">• Beat your opponent to win!</Typography>
+              <Typography className="mb-2 leading-6">
+                • 5 rounds of K-pop song guessing
+              </Typography>
+              <Typography className="mb-2 leading-6">
+                • 4 options per round
+              </Typography>
+              <Typography className="mb-2 leading-6">
+                • Points for speed and accuracy
+              </Typography>
+              <Typography className="mb-2 leading-6">
+                • Beat your opponent to win!
+              </Typography>
             </Card>
           </>
         ) : (
