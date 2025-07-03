@@ -24,6 +24,7 @@
     "expo-doctor": "1.13.4",
     "expo-status-bar": "~2.2.3",
     "expo-web-browser": "~14.2.0",
+    "firebase": "11.10.0",
     "nativewind": "^2.0.11",
     "react": "19.1.0",
     "react-native-gesture-handler": "~2.24.0",
